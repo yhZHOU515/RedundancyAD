@@ -19,3 +19,20 @@ Multimodal analysis further reveals substantial redundancy between image and LiD
 This study demonstrates that redundancy is a measurable and actionable DQ factor with direct implications for AV perception performance. 
 By data-centric evaluation, this work highlights critical but underexplored challenges at the intersection of data quality, task orchestration, and system performance. 
 The findings provide practical guidance for developing more adaptive, explainable, and resilient AV systems that can better handle heterogeneous and dynamic data streams.
+
+# Research Design
+
+## Illustration of multisource and multimodal data in autonomous vehicles (AVs)
+
+<img width="3000" height="1688" alt="source and modal" src="https://github.com/user-attachments/assets/39dddffa-865f-4db9-8790-42cf30bb4487" />
+
+## Research questions
+
+- RQ1: What redundancy exists in multisource and multimodal AV data?
+- RQ2: What redundancy should we remove, and how should we remove it?
+- RQ3: How does redundancy removal affect object detection model performance?
+
+<img width="2798" height="1339" alt="research design" src="https://github.com/user-attachments/assets/9adfe7f3-bc81-4aca-8a57-f34c256c8ca0" />
+
+
+
