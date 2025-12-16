@@ -1,6 +1,6 @@
 This experiment aims to define and quantify the redundancy at the instance level in the context of object detection and explore the effects of removing redundancy in multisource images.
 
-[Example code](/pair2-deduplication-and-training.ipynb)
+[Example code](/Multisource_Images/nuScenes/pair2-deduplication-and-training.ipynb)
 
 # Data
 
