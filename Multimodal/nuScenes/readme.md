@@ -1,69 +1,76 @@
-The evaluation of image-LiDAR redundancy reveals that high redundancy ratios tend to occur for objects located close to the ego-vehicle, where dense LiDAR returns.
+# Camera–LiDAR Redundancy Evaluation on nuScenes
 
-Related code could be found at: 
-- [camera-LiDAR redundancy check](./camera-LiDAR.py)
-- [redundancy stats check](./prune_stats.py)
-- [camera-LiDAR fusion detection model repo](https://github.com/TimKie/YOLO-LiDAR-Fusion/tree/main)
+The evaluation of image–LiDAR redundancy reveals that high redundancy ratios tend to occur for objects located close to the ego vehicle, where dense LiDAR returns are often observed. In the journal version, this original distance-only analysis serves as the baseline for the distance–density camera–LiDAR evaluation.
 
-# Data
+The newer distance–density analysis, including the BEVFusion 25-scene nuScenes holdout, matched-threshold grid, regenerated figures, and paper-ready tables, is provided at:
 
-For LiDAR and image detection, we use [nuScenes-in-KITTI](https://github.com/nutonomy/nuscenes-devkit/blob/master/python-sdk/nuscenes/scripts/export_kitti.py) in order to be compatible with the fusion model using KITTI format.
+* [Distance–density camera–LiDAR package](../distance_density_extension/)
 
-# Data Quality: Redundancy
+Related code in this directory could be found at:
 
-For example, when the weather conditions are good and clear, there is less need to keep high-overlapping information from LiDAR and cameras. The models trained on such data would have little information gain and performance improvement.
+* [camera–LiDAR redundancy check](camera-LiDAR.py)
+* [redundancy stats check](prune_stats.py)
 
-This experiment investigates the redundancy between the front camera and LiDAR: 
+## Data
 
-![Sample](https://github.com/user-attachments/assets/2b7e3901-921b-4757-b973-0ade2b37f5f8)
+For LiDAR and image detection, we use nuScenes-in-KITTI so that the data are compatible with the YOLO-LiDAR-Fusion pipeline.
 
+Raw nuScenes data and pretrained detection checkpoints are not redistributed in this repository because of dataset licensing and storage constraints. Users should obtain the required datasets and models from their official sources.
 
-# Task
+## Data Quality: Redundancy
 
-### (a) Run the full camera-LiDAR fusion detection model
+For camera–LiDAR data, redundancy can occur when the camera and LiDAR observe the same object. The original distance-only experiment uses object distance as a first-order signal: close-range objects are more likely to be jointly observed by both modalities.
 
-Run the full [camera-LiDAR fusion detection model](https://github.com/TimKie/YOLO-LiDAR-Fusion/tree/main) to get baseline 3D bounding boxes. 
-Check the overlapping detections between this and the detection using only LiDAR data as redundancy. 
-Let  `B_LiDAR` be the set of boxes detected using LiDAR only, and `B_base` the set detected by the image-LiDAR fusion. The *redundancy ratio* for one frame is
+However, the journal analysis shows that distance alone is not sufficient. Some nearby objects may still have weak LiDAR support because of occlusion, object size, viewing angle, or sparse sensor coverage. Therefore, the distance-only rule is extended in the distance–density package by adding an object-level LiDAR support-density gate.
 
-> RR = |{b ∈ B_base | ∃ b' ∈ B_LiDAR : IoU(b, b') ≥ θ}| / |B_base|
+## Task
+
+This experiment investigates redundancy between the front camera and LiDAR.
+
+### (a) Run the full camera–LiDAR fusion detection model
+
+Run the full camera–LiDAR fusion detection model to obtain baseline 3D bounding boxes. The original setup uses the YOLO-LiDAR-Fusion pipeline and compares the full camera–LiDAR fusion detections with detections obtained after pruning selected LiDAR returns.
 
 ### (b) Compute each box’s 3D centroid in the LiDAR frame
 
-Compute each box’s 3D centroid in the LiDAR frame, and measure its distance from the ego sensor:
+For each LiDAR-based detection box `b`, compute the 3D centroid of the box and measure its distance from the ego sensor:
 
-> c(b) = (1/8) * Σ(v_i) for i = 1 to 8
+`d(b) = ||c(b)||_2`
 
-and
+where `c(b)` is the 3D centroid of the box. Given a distance threshold `T_dist`, the distance-only pruning candidate set is:
 
-> d(b) = ||c(b)||_2
+`B_pruned = { b in B_LiDAR | d(b) <= T_dist }`
 
+This means that boxes whose centroids lie within the selected distance threshold are removed. By sweeping `T_dist`, the experiment traces how many LiDAR detections are affected and what fraction of baseline true detections is lost.
 
-where `{v_i}` are the eight corner vertices of `b`. We then set a single pruning threshold `T_dist` (meters). All boxes whose centroids lie within this distance are removed:
+### (c) Run detection again with pruned LiDAR data
 
+Run detection again after removing the selected LiDAR returns and compare the pruned results with the unpruned baseline. The lost-ratio measures the fraction of baseline true-positive detections that are no longer recovered after pruning:
 
-> B_pruned = { B_LiDAR | d(B_LiDAR) ≥ T_dist }
+`lost-ratio = |TP_baseline \ TP_pruned| / |TP_baseline|`
 
+Lower lost-ratio means that pruning better preserves the baseline detections.
 
-By sweeping `T_dist`, we could trace how many boxes are pruned and what fraction of true detections is lost, 
-thus choosing a trade-off point that maximally reduces redundancy without harming detection performance too much. This distance threshold is chosen based on statistical results.
+## Beyond Distance-Only: Distance–Density Rule
 
+The journal version extends the original distance-only pruning rule with a camera–LiDAR support-density gate:
 
-### (c) Run LiDAR detection again with pruned data
+`rho(b) = n(b) / A_2D(b)`
 
-Run LiDAR detection again using the partially removed LiDAR data and observe how removing redundancy affects the performance. 
-Let `B_pruned` be the set after pruning. We define the *lost ratio* `l` as the fraction of baseline boxes removed due to removing the redundancy:
+where `n(b)` is the number of LiDAR returns inside the 3D box and `A_2D(b)` is the projected 2D box area in the image plane. A box is considered a pruning candidate only if it satisfies both gates:
 
+`B_cand = { b in B_LiDAR | d(b) <= T_dist and rho(b) >= T_rho }`
 
-> l = |B_base \ B_pruned| / |B_base|
+where `T_rho` is a percentile threshold computed among the distance-gated eligible boxes. Setting the density gate to p00 recovers the original distance-only rule.
 
+The full distance–density reproducibility package is available at:
 
-# Performance and Goal
-T-test results of the object in LiDAR distance threshold and cross-modal redundancy (p-value=1.17e-76) suggest that the high cross-modal redundancy objects remain very close to the ego-vehicle. 
-This supports us in removing the close-range LiDAR data as redundancy. The detection performance can be viewed as unaffected by choosing a reasonable threshold and removing near-range LiDAR points. 
-It also proves that in many scenes, **close-range LiDAR data and camera data** are redundant. While removing them could have little impact, the efficiency can be improved due to the decrease in data points to be processed. 
+* [Multimodal/distance_density_extension](../distance_density_extension/)
 
+That package includes the aggregate result files, scripts for regenerating paper figures and tables, the complete BEVFusion holdout threshold grid, output figures/tables, and reference provenance code.
 
-<img width="400" height="350" alt="distance_pruning_curve" src="https://github.com/user-attachments/assets/ad2a291b-2cc1-40d9-aad7-ca4f65606dfd" />
+## Performance and Goal
 
+The original distance-only analysis shows that object distance is a useful first-order signal for camera–LiDAR redundancy. The t-test result for object distance and cross-modal redundancy (`p = 1.17e-76`) suggests that high cross-modal redundancy is associated with objects close to the ego vehicle.
 
+However, distance-only pruning should be interpreted as a baseline rather than a final criterion. The distance–density rule provides a more selective and controlled redundancy-removal strategy by requiring both proximity and sufficient LiDAR support density. The goal is to remove redundant LiDAR observations while preserving baseline detections as much as possible.
