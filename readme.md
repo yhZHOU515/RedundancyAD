@@ -56,3 +56,33 @@ The workflow below shows how the three research questions map to the two experim
 <p align="center">
   <img width="90%" alt="Research design workflow" src="figures/workflow.png" />
 </p>
+
+## Repository Structure
+
+This repository contains the reproducibility materials for the RedundancyAD journal version. The original RedundancyAD components are kept in their existing locations, and the journal-extension camera–LiDAR distance–density package is added as a separate module.
+
+```text
+RedundancyAD/
+├── readme.md
+├── figures/
+│   ├── intro.png
+│   └── workflow.png
+├── Multisource_Images/
+│   └── nuScenes/
+│       └── camera-camera redundancy experiments
+└── Multimodal/
+    ├── nuScenes/
+    │   └── original camera–LiDAR distance-only baseline
+    └── distance_density_extension/
+        └── journal-version camera–LiDAR distance–density package
+```
+
+## Reproducibility Materials
+
+The journal-extension camera–LiDAR distance–density package is located at:
+
+* [`Multimodal/distance_density_extension/`](Multimodal/distance_density_extension/)
+
+This package complements the earlier camera–LiDAR distance-only setup in `Multimodal/nuScenes/`. It contains the aggregate result files, regeneration scripts, output figures/tables, and reference provenance code for the distance–density analysis introduced in the journal version.
+
+Raw datasets, pretrained checkpoints, and full inference artifacts are not redistributed in this repository because of dataset licensing and storage constraints. The provided aggregate files are sufficient to regenerate the reported paper figures and tables included in the package.
