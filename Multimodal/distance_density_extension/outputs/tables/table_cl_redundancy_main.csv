@@ -1,0 +1,4 @@
+selection_rule,near_range_rows_retained_pct,mean_in_box_lidar_points,zero_lidar_rate_pct
+Distance-only,100.0,80.3,8.3
+Distance + density p80,20.0,232.6,0.0
+Distance + density p90,10.0,277.5,0.0

@@ -1,0 +1,9 @@
+# Dependencies for the reference provenance scripts under pipeline/ only.
+# Not required to regenerate the shipped figures/tables (see requirements.txt).
+# The pipeline scripts are reference-only and additionally require excluded raw
+# data, checkpoints, and framework source trees (see docs/reproduction_notes.md).
+scipy
+pyquaternion
+nuscenes-devkit
+opencv-python
+mmengine

@@ -1,0 +1,5 @@
+# Lightweight dependencies for regenerating the shipped figures/tables.
+# These are all that scripts/ need (no raw data or checkpoints required).
+numpy
+pandas
+matplotlib

@@ -1,0 +1,22 @@
+% Auto-generated from data/results/holdout_grid_5x5.csv by scripts/make_holdout_figure_and_table.py
+\begin{table}[t]
+  \centering
+  \caption{Representative matched-$T_{\mathrm{dist}}$ comparison on the BEVFusion 25-scene nuScenes holdout. ``Removed'' is the percentage of the $74{,}464$-object eligible pool affected by pruning; lost-ratio is at IoU $\geq 0.5$ (lower is better).}
+  \label{tab:matched-tdist-holdout}
+  \begin{tabular}{llcccc}
+    \toprule
+    $T_{\mathrm{dist}}$ & Rule & Removed & Lost-ratio & mAP@0.5 & Native mAP \\
+    \midrule
+    -- & Full-sensor baseline & 0.0\% & 0.000 & 0.407 & 0.674 \\
+    \midrule
+    \multirow{2}{*}{10\,m} & distance-only & 6.2\% & 0.038 & 0.376 & 0.672 \\
+     & distance+density p90 & 0.6\% & 0.028 & 0.400 & 0.675 \\
+    \midrule
+    \multirow{2}{*}{20\,m} & distance-only & 27.9\% & 0.073 & 0.370 & 0.665 \\
+     & distance+density p90 & 2.8\% & 0.039 & 0.386 & 0.674 \\
+    \midrule
+    \multirow{2}{*}{30\,m} & distance-only & 57.9\% & 0.104 & 0.344 & 0.660 \\
+     & distance+density p90 & 5.8\% & 0.050 & 0.380 & 0.669 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
