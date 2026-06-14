@@ -94,7 +94,7 @@ prints a compact per-distance summary and a monotonicity sanity check over the
 ## Layout
 
 ```text
-README.md  LICENSE  requirements.txt  requirements-pipeline.txt  .gitignore
+README.md  requirements.txt  requirements-pipeline.txt  .gitignore
 scripts/
   make_diagnostic_figure_and_table.py     # reads data/results/diagnostic_aggregate_stats.csv
   make_holdout_figure_and_table.py        # reads data/results/holdout_grid_5x5.csv
