@@ -1,0 +1,16 @@
+T_dist_m,class,density_lost_ratio,distance_only_lost_ratio,delta_lost_ratio_density_minus_distance_only,small_denominator_flag
+10,Car,0.00448,0.00247,+0.00201,False
+10,Pedestrian,0.00401,0.00258,+0.00143,False
+10,Cyclist,0.00000,0.01195,-0.01195,False
+15,Car,0.01359,0.00448,+0.00911,False
+15,Pedestrian,0.00889,0.00516,+0.00373,False
+15,Cyclist,0.00000,0.00797,-0.00797,False
+20,Car,0.02208,0.00618,+0.01590,False
+20,Pedestrian,0.01376,0.00975,+0.00401,False
+20,Cyclist,0.00398,0.01594,-0.01195,False
+22.5,Car,0.02486,0.00788,+0.01699,False
+22.5,Pedestrian,0.01835,0.01433,+0.00401,False
+22.5,Cyclist,0.00797,0.01594,-0.00797,False
+30,Car,0.03073,0.01050,+0.02023,False
+30,Pedestrian,0.03240,0.02437,+0.00803,False
+30,Cyclist,0.01195,0.01594,-0.00398,False

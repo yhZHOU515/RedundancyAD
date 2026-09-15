@@ -1,0 +1,26 @@
+% Auto-generated from data/point_budget_match_p90.csv by scripts/make_point_budget_table.py
+\begin{table}[t]
+  \centering
+  \caption{Approximately matched deduplicated-point budget for the p90 gate. The distance-only threshold is lowered until the removed keyframe LiDAR points are closest to the p90 budget; the selected-box count is an outcome, not a target. Every setting matches the budget to within 0.51\%. The point-matched distance-only comparator has the lower lost-ratio at 5 of 5 thresholds.}
+  \label{tab:point-budget-match-p90}
+  \begin{tabular}{llrrcc}
+    \toprule
+    $T_{\mathrm{dist}}$ & Arm & Points & Boxes & Lost-ratio & mAP@0.5 \\
+    \midrule
+    \multirow{2}{*}{10\,m} & distance+density p90 & 182{,}677 & 465 & 0.00421 & 0.402 \\
+     & distance-only, point matched & 181{,}752 & 238 & 0.00157 & 0.403 \\
+    \midrule
+    \multirow{2}{*}{15\,m} & distance+density p90 & 348{,}632 & 1214 & 0.01165 & 0.388 \\
+     & distance-only, point matched & 347{,}592 & 537 & 0.00284 & 0.402 \\
+    \midrule
+    \multirow{2}{*}{20\,m} & distance+density p90 & 426{,}108 & 2076 & 0.01880 & 0.386 \\
+     & distance-only, point matched & 426{,}130 & 625 & 0.00343 & 0.402 \\
+    \midrule
+    \multirow{2}{*}{22.5\,m} & distance+density p90 & 452{,}484 & 2576 & 0.02222 & 0.386 \\
+     & distance-only, point matched & 452{,}790 & 757 & 0.00421 & 0.401 \\
+    \midrule
+    \multirow{2}{*}{30\,m} & distance+density p90 & 500{,}991 & 4311 & 0.03084 & 0.384 \\
+     & distance-only, point matched & 500{,}799 & 934 & 0.00460 & 0.397 \\
+    \bottomrule
+  \end{tabular}
+\end{table}

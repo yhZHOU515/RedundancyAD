@@ -16,7 +16,9 @@ We model and measure redundancy in multisource camera data and multimodal image�
 
 The results show that selectively removing redundant multisource image labels can preserve, and in some settings improve, object detection performance. In nuScenes, mAP50 improves from 0.66 to 0.70, from 0.64 to 0.67, and from 0.53 to 0.55 on representative overlap regions, while other camera pairs remain close to or above their baselines under selected pruning thresholds. In AV2, 4.1–8.6% of labels are removed, and mAP50 remains near the 0.64 baseline.
 
-For multimodal redundancy, the distance–density rule removes redundant LiDAR observations more selectively than the previous distance-only rule while better preserving BEVFusion detections on a 25-scene nuScenes holdout. At T_dist = 30 m, distance-only pruning removes 58% of eligible objects and yields a lost-ratio of 0.104, whereas distance–density pruning removes only 12%/6% under the p80/p90 density gates and reduces the lost-ratio to 0.065/0.050. It also preserves higher detection performance, maintaining mAP50 around 0.37–0.38, compared with 0.34 for distance-only pruning.
+For multimodal redundancy, the distance–density rule adds a support-density gate that restricts the pruning candidate set relative to the earlier distance-only rule on a 25-scene nuScenes holdout. The figures included in the original submission are retained for provenance: at T_dist = 30 m, distance-only pruning removes 58% of eligible objects with a lost-ratio of 0.104, while the p80 and p90 gates remove 12%/6% with lost-ratios of 0.065/0.050.
+
+The revised journal manuscript re-evaluates every condition against one common saved full-sensor baseline under a fixed inference seed, and adds comparisons that hold the amount removed constant. Read metric by metric: at identical outer distance thresholds the density gate restricts the candidate set, so it selects fewer boxes and has a lower lost-ratio than full distance-only pruning; when selected-box counts are matched, distance-only has the lower lost-ratio in all 20 comparisons, the higher native nuScenes mAP in 19 of 20 and the higher mAP@0.5 in 17 of 20; and the supporting p90 approximately matched deduplicated-point comparison preserves the same lost-ratio ordering, favouring the matched distance-only comparator. Selected-box count and removed LiDAR-point volume are different budgets and are not interchangeable. Support density remains an object-level measure of LiDAR support per projected image area and an additional candidate-restriction criterion; these results do not establish universally better detection preservation. The aggregate results and regeneration scripts for the revised analysis are in [`Multimodal/distance_density_extension/revised_controlled_analysis/`](Multimodal/distance_density_extension/revised_controlled_analysis/).
 
 ---
 
@@ -74,7 +76,9 @@ RedundancyAD/
     ├── nuScenes/
     │   └── original camera–LiDAR distance-only baseline
     └── distance_density_extension/
-        └── journal-version camera–LiDAR distance–density package
+        ├── journal-version camera–LiDAR distance–density package
+        └── revised_controlled_analysis/
+            └── aggregate results and regeneration scripts for the revised manuscript
 ```
 
 ## Reproducibility Materials
@@ -83,6 +87,12 @@ The journal-extension camera–LiDAR distance–density package is located at:
 
 * [`Multimodal/distance_density_extension/`](Multimodal/distance_density_extension/)
 
-This package complements the earlier camera–LiDAR distance-only setup in `Multimodal/nuScenes/`. It contains the aggregate result files, regeneration scripts, output figures/tables, and reference provenance code for the distance–density analysis introduced in the journal version.
+This package complements the earlier camera–LiDAR distance-only setup in `Multimodal/nuScenes/`. It contains the aggregate result files, regeneration scripts, output figures/tables, and reference provenance code for the distance–density analysis introduced in the journal version. Its top-level `data/`, `outputs/` and `scripts/` hold the submission-era matched-distance results, retained unchanged for provenance.
+
+The aggregate reproducibility materials for the **revised** journal manuscript are in:
+
+* [`Multimodal/distance_density_extension/revised_controlled_analysis/`](Multimodal/distance_density_extension/revised_controlled_analysis/)
+
+Those materials come from the controlled re-evaluation, in which the full-sensor baseline and every pruning condition share one saved baseline and a fixed inference seed. They cover three distinct comparisons that must not be conflated: matched outer distance thresholds, matched selected-box counts, and approximately matched deduplicated LiDAR-point counts. The submission-era and revised controlled results are retained as separate evaluation families and should not be combined. The revised manuscript uses the common-baseline controlled values distributed in `revised_controlled_analysis/`.
 
 Raw datasets, pretrained checkpoints, and full inference artifacts are not redistributed in this repository because of dataset licensing and storage constraints. The provided aggregate files are sufficient to regenerate the reported paper figures and tables included in the package.

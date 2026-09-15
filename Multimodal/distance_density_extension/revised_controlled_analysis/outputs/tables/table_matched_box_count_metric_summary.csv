@@ -1,0 +1,4 @@
+metric,settings_favouring_distance_only,settings_favouring_density,settings_tied,total_settings
+Lost-ratio (lower is better),20,0,0,20
+mAP@0.5 (higher is better),17,3,0,20
+Native nuScenes mAP (higher is better),19,1,0,20

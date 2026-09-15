@@ -46,6 +46,28 @@ not redistributable here):
 These are not needed to regenerate the figures/tables above — only to recompute
 the aggregate CSVs from scratch.
 
+## Revised controlled analysis
+
+The materials in [`../revised_controlled_analysis/`](../revised_controlled_analysis/)
+correspond to the **revised** journal manuscript. They come from a controlled
+re-evaluation in which the full-sensor baseline and every pruning condition were
+evaluated against one common saved baseline under a fixed inference seed, so
+lost-ratios are computed against the same reference predictions throughout.
+
+The files described above, under `data/results/` and `outputs/`, are the
+**submission-era** matched-distance results and are retained unchanged for
+provenance. The submission-era and revised controlled results are retained as
+separate evaluation families and should not be combined. The revised manuscript
+uses the common-baseline controlled values distributed in
+[`../revised_controlled_analysis/`](../revised_controlled_analysis/).
+
+The revised directory keeps three comparisons separate, because they hold
+different quantities fixed: matched outer distance thresholds, matched
+selected-box counts, and approximately matched deduplicated LiDAR-point counts. A
+selected-box count is not a stand-in for removed LiDAR-point volume. That
+directory regenerates all of its own tables and figures from its own aggregate
+CSVs and states its findings metric by metric.
+
 ## Notes
 
 - `holdout_grid_5x5.csv` contains the 25 density-gate cells (5 distance × 5

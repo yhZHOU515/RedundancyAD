@@ -7,7 +7,12 @@ journal extension. This directory covers only that analysis; it provides:
 * lightweight scripts that regenerate the paper figures/tables from those inputs;
 * reference provenance scripts under [pipeline/](pipeline/) documenting how the
   aggregate inputs were produced;
-* the paper-ready figures/tables under [outputs/](outputs/).
+* the paper-ready figures/tables under [outputs/](outputs/);
+* the aggregate reproducibility materials for the **revised** manuscript under
+  [revised_controlled_analysis/](revised_controlled_analysis/).
+
+The files directly under `data/`, `outputs/` and `scripts/` are the
+**submission-era** matched-distance results, retained unchanged for provenance.
 
 Raw datasets, pretrained checkpoints, and full inference artifacts are **not
 redistributed** here (dataset licensing and storage constraints).
@@ -51,14 +56,27 @@ recovers the distance-only baseline; higher percentiles (p80, p90) restrict
 pruning to near-range boxes with the strongest camera–LiDAR support.
 
 This module evaluates the rule on a pretrained BEVFusion model over a 25-scene
-nuScenes holdout. At `T_dist = 30 m`, distance-only pruning (`p00`) removes
-57.9% of the eligible pool (lost-ratio 0.104), while the `p90` density gate
-removes only 5.8% (lost-ratio 0.050) — approximately a 10× reduction in objects
-affected while better preserving baseline detections. The full-sensor model
-remains the reference point for detection performance; the density gate is a
-**more selective** redundancy-removal criterion, not an unconditional accuracy
-gain. All threshold combinations are in
+nuScenes holdout. In the **submission-era** results kept here, at `T_dist = 30 m`
+distance-only pruning (`p00`) removes 57.9% of the eligible pool (lost-ratio
+0.104) while the `p90` gate removes 5.8% (lost-ratio 0.050): at the same outer
+threshold the gate restricts the candidate set, so it selects roughly 10× fewer
+boxes and has the lower lost-ratio. All threshold combinations are in
 [data/results/holdout_grid_5x5.csv](data/results/holdout_grid_5x5.csv).
+
+The revised manuscript re-evaluates these conditions against one common saved
+full-sensor baseline under a fixed inference seed, and adds comparisons that hold
+the amount removed constant. Those results are in
+[revised_controlled_analysis/](revised_controlled_analysis/), which also states
+the outcome metric by metric: at a matched selected-box count the re-cut
+distance-only rule has the lower lost-ratio in all 20 comparisons, the higher
+native nuScenes mAP in 19 of 20 and the higher mAP@0.5 in 17 of 20, and the
+supporting p90 approximately matched deduplicated-point comparison preserves the
+same lost-ratio ordering, favouring the matched distance-only comparator.
+Selected-box count and removed-point volume are different budgets.
+Support density remains an object-level measure of LiDAR support per projected
+image area and an additional candidate-restriction criterion; these results do not
+establish universally better detection preservation. The full-sensor model remains
+the reference point for detection performance.
 
 ## Quick start
 
@@ -110,6 +128,7 @@ data/results/   diagnostic_aggregate_stats.csv · holdout_grid_5x5.csv · origin
 outputs/figures/  fig_diagnostic_cl_redundancy.{pdf,png} · fig_holdout_matched_threshold.{pdf,png}
 outputs/tables/   table_cl_redundancy_main.{csv,tex} · table_holdout_matched_threshold.{csv,tex}
 docs/reproduction_notes.md
+revised_controlled_analysis/   # aggregate materials for the revised manuscript
 ```
 
 The lost-ratio metric (Eq. 11) used throughout is defined standalone in

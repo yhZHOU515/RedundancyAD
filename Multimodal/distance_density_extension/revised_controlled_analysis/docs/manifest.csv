@@ -1,0 +1,7 @@
+public_file,sha256,row_count,source_category
+data/classwise_metrics.csv,9ae5d34b494224f135611f5c3eadca2e861182f3e405a394aad9ad1ae9897b18,123,per-class detection metrics for every controlled condition
+data/classwise_selection_composition.csv,b575f5f1bbbd1471556d2e091c1809104d7cc787b9f7b668e9928f7d35e8a266,120,per-class selection composition for every pruning condition
+data/controlled_conditions.csv,e3d8ca3ba872f899a98a0e7d3145e90ffa4235daf8556a5a3e02ae3ce66f2664,41,"controlled per-condition detection metrics, full-sensor baseline plus 40 pruning conditions"
+data/controlled_matched_distance.csv,9e728816bde622bc2bb3271c6f0b1170375ad8aa4e73a89f85870100883fb9c1,16,"controlled matched-distance comparison, full distance-only and p80/p90 gates at five thresholds"
+data/matched_box_count_pairs.csv,72fc99c5cb044e8614c28cc6c15b31a92601ede6f83692b8fab33ab4b201f05e,20,"controlled matched selected-box-count comparison, 20 settings"
+data/point_budget_match_p90.csv,8c9b7671cb9de54ada0092152babdf91c7595eeb716d9891ebd41157fe642c49,10,"p90 approximately matched deduplicated-point-budget construction and evaluation, two arms"

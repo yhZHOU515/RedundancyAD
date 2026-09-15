@@ -1,0 +1,11 @@
+T_dist_m,arm,distance_cutoff_m,target_dedup_points,achieved_dedup_points,point_budget_mismatch_pct,selected_box_count,lost_ratio,mAP50,native_mAP,baseline_condition_id
+10,distance_density_p90,10.00,182677,182677,+0.000,465,0.00421,0.40160,0.67298,baseline_full_sensor
+10,distance_only_point_matched,3.70,182677,181752,-0.506,238,0.00157,0.40303,0.67284,baseline_full_sensor
+15,distance_density_p90,15.00,348632,348632,+0.000,1214,0.01165,0.38754,0.67247,baseline_full_sensor
+15,distance_only_point_matched,4.74,348632,347592,-0.298,537,0.00284,0.40201,0.67299,baseline_full_sensor
+20,distance_density_p90,20.00,426108,426108,+0.000,2076,0.01880,0.38611,0.67094,baseline_full_sensor
+20,distance_only_point_matched,4.94,426108,426130,+0.005,625,0.00343,0.40177,0.67291,baseline_full_sensor
+22.5,distance_density_p90,22.50,452484,452484,+0.000,2576,0.02222,0.38642,0.66949,baseline_full_sensor
+22.5,distance_only_point_matched,5.26,452484,452790,+0.068,757,0.00421,0.40137,0.67291,baseline_full_sensor
+30,distance_density_p90,30.00,500991,500991,+0.000,4311,0.03084,0.38417,0.66715,baseline_full_sensor
+30,distance_only_point_matched,5.69,500991,500799,-0.038,934,0.00460,0.39705,0.67292,baseline_full_sensor

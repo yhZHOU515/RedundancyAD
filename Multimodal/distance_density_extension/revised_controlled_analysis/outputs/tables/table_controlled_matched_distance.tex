@@ -1,0 +1,33 @@
+% Auto-generated from data/controlled_matched_distance.csv by scripts/make_controlled_matched_distance.py
+\begin{table}[t]
+  \centering
+  \caption{Controlled matched-distance comparison on the BEVFusion 25-scene nuScenes holdout, all conditions evaluated against one shared full-sensor baseline under a fixed inference seed. ``Boxes'' is the percentage of the $74{,}464$-object eligible pool selected; ``Points'' is the percentage of keyframe LiDAR points removed. The two are different budgets. Lost-ratio is at IoU $\geq 0.5$ (lower is better).}
+  \label{tab:controlled-matched-distance-holdout}
+  \begin{tabular}{llcccc}
+    \toprule
+    $T_{\mathrm{dist}}$ & Rule & Boxes & Points & Lost-ratio & mAP@0.5 \\
+    \midrule
+    -- & full-sensor baseline & 0.0\% & 0.0\% & 0.000 & 0.405 \\
+    \midrule
+    \multirow{3}{*}{10\,m} & distance-only & 6.2\% & 2.20\% & 0.017 & 0.375 \\
+     & distance+density p80 & 1.2\% & 0.94\% & 0.008 & 0.388 \\
+     & distance+density p90 & 0.6\% & 0.53\% & 0.004 & 0.402 \\
+    \midrule
+    \multirow{3}{*}{15\,m} & distance-only & 16.3\% & 2.74\% & 0.036 & 0.371 \\
+     & distance+density p80 & 3.3\% & 1.39\% & 0.018 & 0.386 \\
+     & distance+density p90 & 1.6\% & 1.01\% & 0.012 & 0.388 \\
+    \midrule
+    \multirow{3}{*}{20\,m} & distance-only & 27.9\% & 3.00\% & 0.057 & 0.367 \\
+     & distance+density p80 & 5.6\% & 1.61\% & 0.030 & 0.376 \\
+     & distance+density p90 & 2.8\% & 1.23\% & 0.019 & 0.386 \\
+    \midrule
+    \multirow{3}{*}{22.5\,m} & distance-only & 34.6\% & 3.08\% & 0.068 & 0.366 \\
+     & distance+density p80 & 6.9\% & 1.69\% & 0.036 & 0.375 \\
+     & distance+density p90 & 3.5\% & 1.31\% & 0.022 & 0.386 \\
+    \midrule
+    \multirow{3}{*}{30\,m} & distance-only & 57.9\% & 3.26\% & 0.097 & 0.347 \\
+     & distance+density p80 & 11.6\% & 1.83\% & 0.052 & 0.372 \\
+     & distance+density p90 & 5.8\% & 1.45\% & 0.031 & 0.384 \\
+    \bottomrule
+  \end{tabular}
+\end{table}

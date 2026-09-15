@@ -1,0 +1,11 @@
+T_dist_m,arm,distance_cutoff_m,target_dedup_points,achieved_dedup_points,rel_point_mismatch,selected_box_count,lost_ratio,mAP50,native_mAP,baseline_condition_id,baseline_TP_count,provenance_category
+10,distance_density_p90,10,182677,182677,0.0,465,0.0042094958394517865,0.40160430707385825,0.6729771199037281,baseline_full_sensor,10215,"controlled run, reused (not rerun)"
+10,distance_only_point_matched,3.699154136384929,182677,181752,-0.005063582169621791,238,0.0015663240332843857,0.4030284401104589,0.672840027109126,baseline_full_sensor,10215,"controlled run, new in this extension"
+15,distance_density_p90,15,348632,348632,0.0,1214,0.011649534997552618,0.38754368006403755,0.6724689862403028,baseline_full_sensor,10215,"controlled run, reused (not rerun)"
+15,distance_only_point_matched,4.737055645801276,348632,347592,-0.0029830881846761056,537,0.002838962310327949,0.4020092172097663,0.6729890952724735,baseline_full_sensor,10215,"controlled run, new in this extension"
+20,distance_density_p90,20,426108,426108,0.0,2076,0.018795888399412628,0.3861117456842349,0.6709377077789185,baseline_full_sensor,10215,"controlled run, reused (not rerun)"
+20,distance_only_point_matched,4.9388591892775855,426108,426130,5.163010316633342e-05,625,0.0034263338228095936,0.4017681733561586,0.6729130723253018,baseline_full_sensor,10215,"controlled run, new in this extension"
+22.5,distance_density_p90,22.5,452484,452484,0.0,2576,0.022222222222222223,0.38641792895528554,0.6694886398410068,baseline_full_sensor,10215,"controlled run, reused (not rerun)"
+22.5,distance_only_point_matched,5.263153671274825,452484,452790,0.0006762670061261835,757,0.0042094958394517865,0.40137000250012855,0.6729051435405224,baseline_full_sensor,10215,"controlled run, new in this extension"
+30,distance_density_p90,30,500991,500991,0.0,4311,0.030837004405286344,0.3841697837239964,0.6671534115883302,baseline_full_sensor,10215,"controlled run, reused (not rerun)"
+30,distance_only_point_matched,5.6928012725262445,500991,500799,-0.00038324041749252983,934,0.004601076847772883,0.3970453330687005,0.6729190343741598,baseline_full_sensor,10215,"controlled run, new in this extension"

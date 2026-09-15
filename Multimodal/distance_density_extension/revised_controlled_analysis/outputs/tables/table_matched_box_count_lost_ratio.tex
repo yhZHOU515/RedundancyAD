@@ -1,0 +1,36 @@
+% Auto-generated from data/matched_box_count_pairs.csv by scripts/make_matched_box_count_tables.py
+\begin{table}[t]
+  \centering
+  \caption{Matched selected-box-count comparison on the BEVFusion 25-scene nuScenes holdout. For each setting the distance-only threshold is lowered until it selects the same number of boxes as the density gate. Lost-ratio is at IoU $\geq 0.5$ (lower is better); $\Delta$ is density minus distance-only.}
+  \label{tab:matched-box-count-holdout}
+  \begin{tabular}{llrrccc}
+    \toprule
+    $T_{\mathrm{dist}}$ & $T_{\rho}$ & Boxes & Cutoff (m) & Density & Distance-only & $\Delta$ \\
+    \midrule
+    \multirow{4}{*}{10\,m} & p50 & 2322 & 7.98 & 0.01341 & 0.00891 & $+0.00450$ \\
+     & p70 & 1393 & 6.59 & 0.01077 & 0.00617 & $+0.00460$ \\
+     & p80 & 929 & 5.68 & 0.00803 & 0.00460 & $+0.00343$ \\
+     & p90 & 465 & 4.56 & 0.00421 & 0.00274 & $+0.00147$ \\
+    \midrule
+    \multirow{4}{*}{15\,m} & p50 & 6070 & 10.98 & 0.03201 & 0.02026 & $+0.01175$ \\
+     & p70 & 3642 & 9.28 & 0.02349 & 0.01419 & $+0.00930$ \\
+     & p80 & 2428 & 8.08 & 0.01840 & 0.00930 & $+0.00910$ \\
+     & p90 & 1214 & 6.23 & 0.01165 & 0.00480 & $+0.00685$ \\
+    \midrule
+    \multirow{4}{*}{20\,m} & p50 & 10379 & 13.90 & 0.05002 & 0.03025 & $+0.01977$ \\
+     & p70 & 6227 & 11.09 & 0.03867 & 0.02036 & $+0.01831$ \\
+     & p80 & 4152 & 9.66 & 0.03005 & 0.01537 & $+0.01468$ \\
+     & p90 & 2076 & 7.65 & 0.01880 & 0.00764 & $+0.01116$ \\
+    \midrule
+    \multirow{4}{*}{22.5\,m} & p50 & 12878 & 15.49 & 0.05942 & 0.03818 & $+0.02124$ \\
+     & p70 & 7727 & 12.13 & 0.04679 & 0.02340 & $+0.02340$ \\
+     & p80 & 5151 & 10.35 & 0.03593 & 0.01821 & $+0.01772$ \\
+     & p90 & 2576 & 8.21 & 0.02222 & 0.01028 & $+0.01194$ \\
+    \midrule
+    \multirow{4}{*}{30\,m} & p50 & 21553 & 20.40 & 0.08585 & 0.05854 & $+0.02731$ \\
+     & p70 & 12932 & 15.53 & 0.06774 & 0.03828 & $+0.02947$ \\
+     & p80 & 8621 & 12.76 & 0.05198 & 0.02487 & $+0.02712$ \\
+     & p90 & 4311 & 9.79 & 0.03084 & 0.01537 & $+0.01547$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
