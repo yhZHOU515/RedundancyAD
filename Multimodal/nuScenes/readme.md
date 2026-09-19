@@ -2,9 +2,10 @@
 
 The evaluation of image–LiDAR redundancy reveals that high redundancy ratios tend to occur for objects located close to the ego vehicle, where dense LiDAR returns are often observed. In the journal version, this original distance-only analysis serves as the baseline for the distance–density camera–LiDAR evaluation.
 
-The newer distance–density analysis, including the BEVFusion 25-scene nuScenes holdout, matched-threshold grid, regenerated figures, and paper-ready tables, is provided at:
+This directory documents the original YOLO-LiDAR-Fusion setup. The revised BEVFusion analysis uses a different fixed pretrained model on a 25-scene, 995-keyframe holdout:
 
-* [Distance–density camera–LiDAR package](../distance_density_extension/)
+* [Revised controlled BEVFusion results and regeneration guide](../distance_density_extension/revised_controlled_analysis/)
+* [Distance–density diagnostics and original results](../distance_density_extension/)
 
 Related code in this directory could be found at:
 
@@ -19,7 +20,7 @@ Raw nuScenes data and pretrained detection checkpoints are not redistributed in 
 
 ## Data Quality: Redundancy
 
-For camera–LiDAR data, redundancy can occur when the camera and LiDAR observe the same object. The original distance-only experiment uses object distance as a first-order signal: close-range objects are more likely to be jointly observed by both modalities.
+Camera and LiDAR can observe the same object while retaining complementary information. The original distance-only experiment uses object distance as an operational signal for selecting LiDAR removal candidates; joint observation alone does not establish that the selected information is strictly redundant.
 
 However, the journal analysis shows that distance alone is not sufficient. Some nearby objects may still have weak LiDAR support because of occlusion, object size, viewing angle, or sparse sensor coverage. Therefore, the distance-only rule is extended in the distance–density package by adding an object-level LiDAR support-density gate.
 
@@ -73,4 +74,4 @@ That package includes the aggregate result files, scripts for regenerating paper
 
 The original distance-only analysis shows that object distance is a useful first-order signal for camera–LiDAR redundancy. The t-test result for object distance and cross-modal redundancy (`p = 1.17e-76`) suggests that high cross-modal redundancy is associated with objects close to the ego vehicle.
 
-However, distance-only pruning should be interpreted as a baseline rather than a final criterion. The distance–density rule provides a more selective and controlled redundancy-removal strategy by requiring both proximity and sufficient LiDAR support density. The goal is to remove redundant LiDAR observations while preserving baseline detections as much as possible.
+The revised controlled BEVFusion analysis separates comparisons at matched distance thresholds from those at matched selected-box counts or approximately matched point budgets. Density gating selects fewer boxes and has a lower lost-ratio at the same distance threshold; at matched selected-box counts, distance-only has a lower lost-ratio in all 20 settings. LiDAR support density characterizes support per projected image area and restricts the candidate set, but does not establish better preservation of baseline true positives in that matched-count comparison.

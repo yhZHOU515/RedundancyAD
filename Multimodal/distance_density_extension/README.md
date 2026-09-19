@@ -4,15 +4,16 @@ The camera–LiDAR **distance–density** experiments added in the RedundancyAD
 journal extension. This directory covers only that analysis; it provides:
 
 * the shipped aggregate/summary inputs under [data/](data/);
-* lightweight scripts that regenerate the paper figures/tables from those inputs;
+* lightweight scripts that regenerate the supplied figures/tables from those inputs;
 * reference provenance scripts under [pipeline/](pipeline/) documenting how the
   aggregate inputs were produced;
-* the paper-ready figures/tables under [outputs/](outputs/);
+* the original diagnostic and submission-era holdout figures/tables under [outputs/](outputs/);
 * the aggregate reproducibility materials for the **revised** manuscript under
   [revised_controlled_analysis/](revised_controlled_analysis/).
 
-The files directly under `data/`, `outputs/` and `scripts/` are the
-**submission-era** matched-distance results, retained unchanged for provenance.
+The original diagnostics and **submission-era** holdout results remain under
+`data/`, `outputs/` and `scripts/`. For the revised BEVFusion evaluation, use
+`revised_controlled_analysis/`; its quick start is shown first below.
 
 Raw datasets, pretrained checkpoints, and full inference artifacts are **not
 redistributed** here (dataset licensing and storage constraints).
@@ -23,9 +24,10 @@ separately in the sibling directory
 
 ## Method
 
-For each LiDAR detection box `b`, we compute two object-level redundancy
-indicators: the ego-centric distance of the box centroid `d(b)` and the
-camera–LiDAR support density `rho(b)`.
+For each LiDAR detection box `b`, we use two operational signals for selecting
+removal candidates: the ego-centric distance of the box centroid `d(b)` and
+LiDAR support density `rho(b)`. These signals do not establish that the selected
+information is strictly redundant.
 
 **Distance gate (baseline).** The original distance-only rule (in
 [`../nuScenes/`](../nuScenes/)) treats a box as a pruning candidate when its
@@ -43,7 +45,8 @@ We therefore add a support-density measure,
 
 where `n(b)` is the number of LiDAR returns inside the 3D box and `A_2D(b)` is
 the pixel area of the box's 2D projection in the image plane. Higher `rho(b)`
-means stronger camera–LiDAR support per unit image footprint.
+means more LiDAR returns per unit projected image area; it does not measure
+semantic agreement between camera and LiDAR observations.
 
 **Conjunctive distance–density rule (this module).** A box is a pruning
 candidate only if it passes **both** gates:
@@ -51,9 +54,9 @@ candidate only if it passes **both** gates:
 > B_cand = { b ∈ B_LiDAR | d(b) ≤ T_dist  ∧  rho(b) ≥ T_rho }
 
 `T_rho` is a percentile threshold computed **among the distance-gated eligible
-boxes** (not globally). Setting the density gate to `p00` disables it and
+boxes**. Setting the density gate to `p00` disables it and
 recovers the distance-only baseline; higher percentiles (p80, p90) restrict
-pruning to near-range boxes with the strongest camera–LiDAR support.
+pruning to near-range boxes with higher LiDAR support density.
 
 This module evaluates the rule on a pretrained BEVFusion model over a 25-scene
 nuScenes holdout. In the **submission-era** results kept here, at `T_dist = 30 m`
@@ -64,8 +67,9 @@ boxes and has the lower lost-ratio. All threshold combinations are in
 [data/results/holdout_grid_5x5.csv](data/results/holdout_grid_5x5.csv).
 
 The revised manuscript re-evaluates these conditions against one common saved
-full-sensor baseline under a fixed inference seed, and adds comparisons that hold
-the amount removed constant. Those results are in
+full-sensor baseline under a fixed inference seed, and adds comparisons at
+matched selected-box counts and approximately matched deduplicated-point counts.
+Those results are in
 [revised_controlled_analysis/](revised_controlled_analysis/), which also states
 the outcome metric by metric: at a matched selected-box count the re-cut
 distance-only rule has the lower lost-ratio in all 20 comparisons, the higher
@@ -80,20 +84,51 @@ the reference point for detection performance.
 
 ## Quick start
 
+**Revised controlled BEVFusion analysis.** From the repository root:
+
 ```bash
-pip install -r requirements.txt
+cd Multimodal/distance_density_extension/revised_controlled_analysis
+python -m pip install -r ../requirements.txt
+python scripts/verify_public_artifacts.py
+python scripts/make_controlled_matched_distance.py
+python scripts/make_matched_box_count_tables.py
+python scripts/make_matched_box_count_figures.py
+python scripts/make_point_budget_table.py
+python scripts/make_classwise_tables.py
+```
+
+These commands verify the supplied data and regenerate the revised controlled
+outputs from aggregate CSV files. They do not rerun model inference. See the
+[revised results map](revised_controlled_analysis/README.md#results-map) for the
+relationship between the detailed exports and the final manuscript tables.
+
+### Original diagnostics and submission-era outputs
+
+The following commands run from this directory
+(`Multimodal/distance_density_extension/`):
+
+```bash
+python -m pip install -r requirements.txt
 python scripts/make_diagnostic_figure_and_table.py
 python scripts/make_holdout_figure_and_table.py
 python scripts/make_original_setup_grid.py
 ```
 
-**Requirements files.** `requirements.txt` is the lightweight set
-(`numpy`, `pandas`, `matplotlib`) for regenerating the shipped figures/tables
-from the aggregate CSV files in `data/results/`. `requirements-pipeline.txt` is
-only for the heavier provenance / full-pipeline code under `pipeline/`; it is not
-needed to regenerate the figures/tables.
+`make_holdout_figure_and_table.py` regenerates the **submission-era** BEVFusion
+holdout outputs. The revised controlled holdout outputs come from the separate
+directory above.
+
+**Requirements files.** `requirements.txt` contains the lightweight dependencies
+(`numpy`, `pandas`, `matplotlib`) for aggregate-output regeneration.
+`requirements-pipeline.txt` is for the reference code under `pipeline/`; it is
+not needed for the quick start.
 
 ## Results map
+
+**Original diagnostics and submission-era outputs.**
+
+The holdout figure and table in this map are historical outputs. For the revised
+holdout results, use the [controlled-analysis results map](revised_controlled_analysis/README.md#results-map).
 
 | Label                           | Output                                                                                                   | Script                                                  | Input                                                                                      |
 | ------------------------------- | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
@@ -117,7 +152,7 @@ scripts/
   make_diagnostic_figure_and_table.py     # reads data/results/diagnostic_aggregate_stats.csv
   make_holdout_figure_and_table.py        # reads data/results/holdout_grid_5x5.csv
   make_original_setup_grid.py             # verifier over data/results/original_setup_grid_8x5.csv
-  lost_ratio.py                           # lost-ratio metric (Eq. 11), standalone reference
+  lost_ratio.py                           # lost-ratio metric, standalone reference
 pipeline/                                 # provenance scripts (reference only — see below)
   diagnostic/         build_object_camera_table.py · aggregate_diagnostic_stats.py
   bevfusion_holdout/  build_holdout_split.py · build_eligible_pool.py · prune_lidar_returns.py
@@ -131,7 +166,7 @@ docs/reproduction_notes.md
 revised_controlled_analysis/   # aggregate materials for the revised manuscript
 ```
 
-The lost-ratio metric (Eq. 11) used throughout is defined standalone in
+The lost-ratio metric is defined standalone in
 [scripts/lost_ratio.py](scripts/lost_ratio.py). The `data/results/` files are
 **aggregate/summary verification files** — the figure/table numbers are read
 verbatim from them; the scripts do not change any reported value. See

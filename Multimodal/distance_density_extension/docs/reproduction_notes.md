@@ -1,13 +1,17 @@
 # Reproduction notes
 
-This package regenerates the journal-extension distance–density figures/tables
-from included **aggregate/summary** inputs. It is not meant to reproduce the
-entire conference paper, nor to re-run model inference end-to-end.
+This package regenerates its supplied distance–density figures and tables from
+included **aggregate/summary** inputs. For the revised BEVFusion evaluation,
+start with the [controlled-analysis quick start](../revised_controlled_analysis/README.md#quick-start).
+The original diagnostics and submission-era holdout outputs are retained
+separately. The package does not rerun model inference end-to-end or provide the
+camera–camera training experiments.
 
-## What runs from this package
+## Original diagnostics and submission-era outputs
 
-With the core Python stack (`pip install -r ../requirements.txt`) and no other
-inputs:
+From `Multimodal/distance_density_extension/`, install the lightweight dependencies
+with `python -m pip install -r requirements.txt`. The following scripts use the
+included aggregate inputs:
 
 - `scripts/make_diagnostic_figure_and_table.py` → diagnostic figure + table from
   `data/results/diagnostic_aggregate_stats.csv`.
@@ -54,9 +58,10 @@ re-evaluation in which the full-sensor baseline and every pruning condition were
 evaluated against one common saved baseline under a fixed inference seed, so
 lost-ratios are computed against the same reference predictions throughout.
 
-The files described above, under `data/results/` and `outputs/`, are the
-**submission-era** matched-distance results and are retained unchanged for
-provenance. The submission-era and revised controlled results are retained as
+The holdout results in `data/results/holdout_grid_5x5.csv` and their generated
+outputs are the **submission-era** matched-distance results, retained for
+provenance. The diagnostic aggregates and original-setup grid are separate
+components. The submission-era and revised controlled results are retained as
 separate evaluation families and should not be combined. The revised manuscript
 uses the common-baseline controlled values distributed in
 [`../revised_controlled_analysis/`](../revised_controlled_analysis/).
@@ -66,7 +71,10 @@ different quantities fixed: matched outer distance thresholds, matched
 selected-box counts, and approximately matched deduplicated LiDAR-point counts. A
 selected-box count is not a stand-in for removed LiDAR-point volume. That
 directory regenerates all of its own tables and figures from its own aggregate
-CSVs and states its findings metric by metric.
+CSVs and states its findings metric by metric. Its [results map](../revised_controlled_analysis/README.md#results-map)
+identifies the data underlying final manuscript Figure 8 and Tables VII and VIII;
+the supplied table exports contain more settings than the representative
+manuscript tables.
 
 ## Notes
 

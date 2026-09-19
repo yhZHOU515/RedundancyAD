@@ -1,6 +1,8 @@
 This experiment aims to define and quantify the redundancy at the instance level in the context of object detection and explore the effects of removing redundancy in multisource images.
 
-[Example code](/Multisource_Images/nuScenes/pair2-deduplication-and-training.ipynb)
+[Example code](pair2-deduplication-and-training.ipynb)
+
+This directory provides the original Pair 2 example notebook. The revised manuscript also reports three-seed comparisons and a visibility analysis; their per-seed results and visibility-analysis outputs are not included here. The summary below describes the revised findings, while the notebook remains an example of the original workflow.
 
 # Data
 
@@ -58,9 +60,9 @@ For the cropped images in the six pairs, we calculate the cosine similarity of e
 ### (d) Create different levels of redundant training datasets
 
 To investigate how redundancy affects inference performance, for each pair of overlapping detections, 
-we compute a **Bounding Box Completeness Score (BCS)**, which indicates how completely the bounding box (BBox) presents the instance.
+we compute a **Bounding Box Completeness Score (BCS)**, which measures how much of the projected bounding box lies within the image boundary.
 
-Let `BBox_full` be the original (uncropped) 2D bounding-box area in the image, and let `BBox_clipped` be the visible portion after clipping to the image boundaries. We define:
+Let `BBox_full` be the original (uncropped) 2D bounding-box area in the image, and let `BBox_clipped` be the portion remaining after clipping to the image boundaries. We define:
 
 <img width="300" height="50" alt="BCS" src="https://github.com/user-attachments/assets/0a878032-fb5f-43c0-bbad-fcd2237a3c1f" />
 
@@ -71,6 +73,8 @@ where `b` indexes a candidate box. Within each redundant group, if
 <img width="300" height="45" alt="rule" src="https://github.com/user-attachments/assets/07fd0d6c-ee22-4cc8-8786-06a9df310de1" />
 
 we retain only the box with the higher BCS and discard the lower one; otherwise, we preserve both boxes. As the threshold `τ_BCS` increases, fewer boxes are removed, thus retaining more redundancy while still preferring more complete annotations.
+
+BCS measures boundary completeness, not occlusion or general visibility. A fully in-frame but occluded box can receive a higher BCS than a clear, boundary-truncated box. Similarity between overlapping crops does not guarantee that individual objects are unoccluded.
 
 # Task and Application
 
@@ -91,8 +95,7 @@ Next, we train the model using these training datasets and evaluate how removing
 # Performance and Goal
 
 For each pair, the thresholds are set from 0.0 to 1.0, with a 0.2 interval. As the threshold increases, the instances in the training dataset are kept more, meaning the redundancy is reserved more, till the 1.0 threshold keeps all the instances for training. 
-Interestingly, the trends reveal that a **less redundant** training dataset can **achieve or even surpass** the performance level of using the full training dataset.  
+The figure below shows the original threshold sweep. In the revised manuscript, the best validation threshold for each pair is fixed before repeating both baseline and pruned training with three seeds on the same train/validation split. Mean paired mAP50 changes are +0.039, +0.028, and +0.018 for Pairs 1–3, and within ±0.001 for Pairs 4–6. These repeats assess training-seed variation at the selected thresholds; they do not test different splits or independently validate threshold selection.
 
 
 <img width="400" height="600" alt="output" src="https://github.com/user-attachments/assets/5920be22-b2b3-4380-8ed1-8b9f5e7a93b4" />
-
